@@ -1,5 +1,5 @@
 Name: python-linux-procfs
-Version: 0.7.1
+Version: 0.7.3
 Release: 1%{?dist}
 License: GPLv2
 Summary: Linux /proc abstraction classes
@@ -43,6 +43,16 @@ rm -rf %{buildroot}
 %license COPYING
 
 %changelog
+* Fri Nov 10 2023 John Kacur <jkacur@redhat.com> - 0.7.3-1
+- Rebase to upstream python-linux-procfs-0.7.3
+- This rebase removes upstream spec files and
+- syncs the git tag with version
+Resolves: RHEL-7614
+
+* Fri Oct 27 2023 John Kacur <jkacur@redhat.com> - 0.7.2-1
+- Rebase to upstream python-linux-procfs-0.7.2
+Resolves: RHEL-7864
+
 * Fri Nov 18 2022 John Kacur <jkacur@redhat.com> - 0.7.1-1
 - Rebase to upstream version python-linux-procfs-0.7.1
 Resolves: rhbz#2121520
