@@ -4,8 +4,8 @@
 %endif
 
 Name: python-linux-procfs
-Version: 0.7.3
-Release: 7%{?dist}
+Version: 0.7.4
+Release: 1%{?dist}
 License: GPL-2.0-only
 Summary: Linux /proc abstraction classes
 Source: https://cdn.kernel.org/pub/software/libs/python/%{name}/%{name}-%{version}.tar.xz
@@ -13,8 +13,7 @@ URL: https://rt.wiki.kernel.org/index.php/Tuna
 BuildArch: noarch
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
-
-# Patches
+BuildRequires: pyproject-rpm-macros
 
 %global _description\
 Abstractions to extract information from the Linux kernel /proc files.
@@ -25,29 +24,33 @@ Abstractions to extract information from the Linux kernel /proc files.
 Summary: %summary
 %{?python_provide:%python_provide python3-linux-procfs}
 
-Requires: python3-six
-
 %description -n python3-linux-procfs %_description
 
 %prep
 %autosetup -p1
 
+%generate_buildrequires
+%pyproject_buildrequires
+
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-rm -rf %{buildroot}
-%py3_install
+%pyproject_install
+%pyproject_save_files procfs
 
-%files -n python3-linux-procfs
-%defattr(0755,root,root,0755)
+%files -n python3-linux-procfs -f %{pyproject_files}
 %{_bindir}/pflags
-%{python3_sitelib}/procfs/
-%defattr(0644,root,root,0755)
-%{python3_sitelib}/python_linux_procfs*.egg-info
 %license COPYING
 
 %changelog
+* Wed Oct 22 2025 John Kacur <jkacur@redhat.com> - 0.7.4-1
+- Rebase to upstream version 0.7.4
+- Convert to pyproject-based build using pyproject.toml
+- Remove python3-six dependency (no longer needed)
+- Remove distutils patch (no longer needed with pyproject build)
+Resolves: RHEL-114904
+
 * Tue Oct 29 2024 Troy Dawson <tdawson@redhat.com> - 0.7.3-7
 - Bump release for October 2024 mass rebuild:
   Resolves: RHEL-64018
