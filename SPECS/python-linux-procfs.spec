@@ -1,6 +1,6 @@
 Name: python-linux-procfs
-Version: 0.7.3
-Release: 1%{?dist}
+Version: 0.7.4
+Release: 2%{?dist}
 License: GPLv2
 Summary: Linux /proc abstraction classes
 URL: https://git.kernel.org/pub/scm/libs/python/%{name}/%{name}.git
@@ -13,6 +13,7 @@ BuildRequires: python3-setuptools
 Abstractions to extract information from the Linux kernel /proc files.
 
 # PATCHES
+Patch0: python-linux-procfs-Add-setup.py-for-older-distributions.patch
 
 %description %_description
 
@@ -28,11 +29,11 @@ Requires: python3
 %autosetup -p1
 
 %build
-%py3_build
+%{__python3} setup.py build
 
 %install
 rm -rf %{buildroot}
-%py3_install
+%{__python3} setup.py install --root=%{buildroot}
 
 %files -n python3-linux-procfs
 %defattr(0755,root,root,0755)
@@ -43,6 +44,15 @@ rm -rf %{buildroot}
 %license COPYING
 
 %changelog
+* Sun Nov 24 2025 John Kacur <jkacur@redhat.com> - 0.7.4-2
+- Update setup.py for older distributions
+- Use explicit setup.py build commands
+Resolves: RHEL-119895
+
+* Wed Nov 19 2025 John Kacur <jkacur@redhat.com> - 0.7.4-1
+- Rebase to upstream python-linux-procfs-0.7.4
+Resolves: RHEL-119895
+
 * Fri Nov 10 2023 John Kacur <jkacur@redhat.com> - 0.7.3-1
 - Rebase to upstream python-linux-procfs-0.7.3
 - This rebase removes upstream spec files and
